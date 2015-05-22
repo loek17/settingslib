@@ -18,8 +18,8 @@ support for:
  
 usage
 
--- settings.py --
-'''
+-- settings.py
+```
 import sys
 
 from settingslib import BaseSettings, Section, Option, Resolver
@@ -75,9 +75,9 @@ class Settings(BaseSettings):
 settings = Settings('my_app_', [os.path.join(os.path.dirname(__file__), 'data', 'config.conf')]) # add prefix and "in package settings"
 # now we can just import is like a module
 sys.modules[__name__] = settings
-'''
+```
 -- __main__.py --
-'''
+```
 import argparse
 
 from . import settings
@@ -106,7 +106,7 @@ def main():
     
     # set up logging or something
     logger.setup() # logger.py can just import settings and use settings.LOG_DIR or something
-'''
+```
 
 
 
