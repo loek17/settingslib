@@ -82,7 +82,9 @@ class Section(object):
     resolverTypes = []
     use_env = True
 
-    def __init__(self, options, userconfig, nosave, envconfig ,configs):
+    def __init__(self, root, options, userconfig, nosave, envconfig ,configs):
+        
+        self.root = root
         
         self.options = {}
         for key, value in options.items():
@@ -135,6 +137,10 @@ class Section(object):
         if not key.isupper():
             raise AttributeError("Key is not upper and not in __dict__, key : {key}".format(key=key))
         key = key.lower()
+
+        if self.extraOptions[key]['solid'] is True:
+            return self.defaults[key]
+
         for setting in [self.options, self.userconfig, self.nosave, self.envconfig] + self.fileconfigs + [self.defaults]:
             if key in setting.keys():
                 return self.resolvers[key].get(setting[key])
@@ -154,13 +160,24 @@ class Section(object):
         self.extraOptions[key.lower()]['callback'](key, value)
     
     def get(self, key):
-        return self.__getattr__(key.upper())
+        settings = self
+        for k in key.split('.')[:-1]:
+            settings = settings.get(key)
+        return settings.__getattr__(key.split('.')[-1].upper())
     
     def set(self, key, value):
-        self.__setattr__(key.upper(), value)
+        settings = self
+        for k in key.split[:-1]:
+            settings = settings.get(k)
+        settings.__setattr__(key.split('.')[-1].upper(), value)
     
     def has(self, key):
-        return key.upper() in self.keys()
+        try:
+            self.get(key)
+        except AttributeError:
+            return False
+        else:
+            return True
     
     def keys(self):
         return [key.upper() for key in self.defaults.keys()]
@@ -177,7 +194,7 @@ class Section(object):
     def get_dict(self):
         d = {}
         for key, value in self.items():
-            if isinstance(value, _Settings):
+            if isinstance(value, Section):
                 d[key] = value.get_dict()
             else:
                 d[key] = value
@@ -221,7 +238,7 @@ class BaseSettings(Section):
                 config.read(fd)
                 fileconfigs.append(config)
         
-        super(BaseSettings, self).__init__(options, userconfig, nosave, envconfig, fileconfigs)
+        super(BaseSettings, self).__init__(self, options, userconfig, nosave, envconfig, fileconfigs)
     
     def set_options(self, args):
         self.options.clear()

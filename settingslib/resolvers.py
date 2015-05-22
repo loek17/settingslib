@@ -138,7 +138,7 @@ class StrSettingsResolver(SettingsResolver):
     def get(self, value):
         value = str(value)
         if re.search(self.SETTING_REGEX, value):
-            kwargs = dict((v , self.settings.get(v)) for v in re.findall(self.SETTING_REGEX, value) if self.settings.has(v))
+            kwargs = dict((v , self.settings.root.get(v)) for v in re.findall(self.SETTING_REGEX, value) if self.settings.root.has(v))
         else:
             kwargs = {}
         
@@ -740,7 +740,7 @@ class SectionSettingsResolver(SettingsResolver, ReferenceResolverMixin):
         except KeyError:
             envconfig = self.settings.envconfig[key.lower()] = {}
         
-        return section(options, userconfig, nosave, envconfig, fileconfigs)
+        return section(self.settings, options, userconfig, nosave, envconfig, fileconfigs)
     
     def raw(self, value): 
         raise ResolveException("It is not possible to set a section")

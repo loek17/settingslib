@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-#Copyright (c) 2014 Loek Wensveen
+#Copyright (c) 2015 Loek Wensveen
 #
 # Permission is hereby granted, free of charge, to any person
 # obtaining a copy of this software and associated documentation
@@ -40,4 +40,4 @@ __author__ = "Loek Wensveen"
 __email__ = "loekcrosser@hotmail.com"
 
 __license__ = "MIT"
-__copyright__ = "Copyright 2014 Loek Wensveen"
+__copyright__ = "Copyright 2015 Loek Wensveen"

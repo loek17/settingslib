@@ -32,9 +32,6 @@ about = {}
 with open("settingslib/__about__.py") as fp:
     exec(fp.read(), about)
 
-with open("README.rst") as fp:
-    long_description = fp.read()
-
 setup(
     name=about['__title__'],
 
@@ -44,7 +41,6 @@ setup(
     version=about['__version__'],
 
     description=about['__summary__'],
-    long_description=long_description,
 
     # The project's main homepage.
     url=about['__uri__'],
