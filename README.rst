@@ -1,4 +1,4 @@
-A settings Python project
+# A settings Python project
 =======================
 
 A lib to easly define settings for your app.
@@ -18,7 +18,8 @@ support for:
  
 usage
 
--- settings.py
+###### settings.py
+
 ```
 import sys
 
@@ -76,7 +77,9 @@ settings = Settings('my_app_', [os.path.join(os.path.dirname(__file__), 'data', 
 # now we can just import is like a module
 sys.modules[__name__] = settings
 ```
--- __main__.py --
+
+####### __main__.py
+
 ```
 import argparse
 
