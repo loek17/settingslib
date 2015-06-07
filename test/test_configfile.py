@@ -146,8 +146,6 @@ class ConfigFileTestCase(basetest.BaseTestCase):
         self.assertEqual(cfg.section1.subsection.item2, "item 2")
         self.assertEqual(cfg.section2.subsection.item3, "item 3")
         self.assertEqual(cfg['very last'], "7")
-        self.assertEqual(cfg.section1.help(), "a section comment")
-        self.assertEqual(cfg.section1.help("item1"), "this is a comment for section1.item1:")
 
     def test_varying_indents(self):
         fp = StringIO.StringIO(''.join([

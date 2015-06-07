@@ -39,7 +39,7 @@ class BaseSettingsTestCase(basetest.BaseTestCase):
             SOMETHING = 1
             SOME = Option(1, 'int')
             SOMETHING3 = Option("3", 'int')
-            SOMESTR = Option(1, Resolver('str', **{}))
+            SOMESTR = Option(1, Resolver('str'))
             class SUBSECTION(Section):
                 SOM = 1
                 SOM3 = 1
@@ -96,10 +96,10 @@ class BaseSettingsTestCase(basetest.BaseTestCase):
             class SOMETHING(Option):
                 "hello I am some help message"
                 default = 1
-                resolver = ('int', {})
+                resolver = Resolver('int')
                 save = False
         
         settings = Settings()
         self.assertEqual(settings.SOMETHING, 1)
-        self.assertEqual(settings.extraOptions['something']['__doc__'], "hello I am some help message")
+        self.assertEqual(settings.help_dict['something'], "hello I am some help message")
     

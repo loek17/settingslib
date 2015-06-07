@@ -26,6 +26,13 @@
 
 from __future__ import absolute_import
 
+import logging
+from  logging import NullHandler
+
+# we use logger so make sure our logger does not pollute the logs 
+logger = logging.getLogger(__name__)
+logger.addHandler(NullHandler())
+
 # make sure all resolvers are loaded
 import settingslib.resolvers
 

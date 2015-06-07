@@ -27,6 +27,7 @@
 from __future__ import absolute_import
 
 import logging
+import os
 
 from . import configfile
 
@@ -39,17 +40,22 @@ class SettingsException(Exception):
     pass
             
 def add_resolver_type(cls):
-    Section.resolverTypes.append((cls.resolve_types, cls,))
+    Section.resolverTypes.append(cls)
     
 class Section(object):
     class __metaclass__(type):
         def __new__(cls, name, bases, attrs):
-            if object in bases:
+            if name in ['Section', 'BaseSettings']:
                 return type.__new__(cls, name, bases, attrs)
 
             defaults = {}
             resolvers = {}
             extraOptions = {}
+            
+            try:
+                help_dict = dict((k.lower(), v) for k,v in get_attr_doc_form_class(name, attrs['__module__']))
+            except:
+                help_dict = {}
             
             for key, value in attrs.items():
                 if key.isupper():
@@ -57,23 +63,25 @@ class Section(object):
                         defaults[key.lower()] = value.default
                         resolvers[key.lower()] = value.resolver
                         extraOptions[key.lower()] = value.extraOptions
+                        if value.__doc__:
+                            help_dict[key.lower()] = value.__doc__
                     else:
                         defaults[key.lower()] = value
-                        resolvers[key.lower()] = Resolver(value.__class__ if not isinstance(value, type) else value)
+                        resolvers[key.lower()] = None
                         extraOptions[key.lower()] = {}
                     del attrs[key]
             
             attrs['defaults'] = defaults
             attrs['raw_resolvers'] = resolvers
+            attrs['help_dict'] = help_dict
             attrs['raw_extraOptions'] = extraOptions
             
             return type.__new__(cls, name, bases,attrs)
 
     defaultExtraOptions = {
         "save" : True,
-        "__doc__" : None,                  # A help message for this option
-        #"commandoption : False,           # Maybe add support for this later
-        #"commandkwargs : False,           # Maybe add support for this later
+        #"commandoption" : False,           # Maybe add support for this later
+        #"commandkwargs" : False,           # Maybe add support for this later
         "callback" : lambda k,v : None,    # callback called after a settings is set with setting as arg
         "initialize" : lambda k,v : None,  # called with the default, returning something does not update the value, is this usefull??
         "solid" : False                    # If True this value can't be changed, the default is always returned
@@ -121,7 +129,10 @@ class Section(object):
         
         self.resolvers = {}
         for key, resolver in self.raw_resolvers.items():
-            r = self.get_resolver(resolver.type, resolver.resolverKwargs)
+            if resolver is not None:
+                r = self.get_resolver(resolver.type,key=None, default=None, kwargs=resolver.resolverKwargs)
+            else:
+                r = self.get_resolver(self.defaults[key.lower()].__class__, key=key.lower(), default=self.defaults[key.lower()])
             self.resolvers[key.lower()] = r
             
             if r.multivalue and not r.has_childs():
@@ -162,12 +173,12 @@ class Section(object):
     def get(self, key):
         settings = self
         for k in key.split('.')[:-1]:
-            settings = settings.get(key)
+            settings = settings.__getattr__(k)
         return settings.__getattr__(key.split('.')[-1].upper())
     
     def set(self, key, value):
         settings = self
-        for k in key.split[:-1]:
+        for k in key.split('.')[:-1]:
             settings = settings.get(k)
         settings.__setattr__(key.split('.')[-1].upper(), value)
     
@@ -191,6 +202,24 @@ class Section(object):
     def items(self):
         return [(key, self.get(key)) for key in self.keys()]
     
+    def sections(self):
+        return [key.upper() for key, value in self.defaults.keys() if issubclass(value, Section)]
+    
+    def help(self, key=None):
+        if key is None:
+            return self.__doc__ or "No help description."
+        for k in key.split('.')[:-1]:
+            settings = settings.get(k)
+        if key.split('.')[:-1] in settings.sections():
+            return settings.get(key.split('.')[:-1]).help()
+        else:
+            try:
+                return self.help_dict[key.split('.')[:-1].lower()]
+            except KeyError:
+                return "No help description."
+            
+        
+    
     def get_dict(self):
         d = {}
         for key, value in self.items():
@@ -200,27 +229,22 @@ class Section(object):
                 d[key] = value
         return d
     
-    def get_resolver(self, types, kwargs={}):
-        if isinstance(types, type): # it is a class
-            types = types.__mro__ # we search the mro, maybe it is a subclass of an known type
-        if not isinstance(types, (list, tuple)): # its a string
-            types = [types]
-            
-        for cls in types: 
-            for clstypes , class_ in self.__class__.resolverTypes:
-                if cls in clstypes:   
-                    return class_(self, **kwargs)
-        logger.warning("We can't find type : {type}, using the default.".format(type=type))
-        
-        from . import resolvers
-        return resolvers.SettingsResolver(self, **kwargs) 
+    def get_resolver(self, type_=None, key=None, default=None ,kwargs={}):
+        for cls in reversed(self.resolverTypes):
+            if cls.supports(type_, key, default):
+                return cls(self, **kwargs)
+        for subtype in type_.__mro__:
+            for cls in reversed(self.resolverTypes):
+                if cls.supports(subtype, key, default):
+                    return cls(self, **kwargs)
+        return self.get_resolver('default')
 
 class BaseSettings(Section):
 
     def __init__(self, env_preflix=None, cfgfiles=()):
         options = {}
 
-        userconfig = configfile.ConfigFile(False)
+        userconfig = configfile.ConfigFile()
         
         nosave = {}
         
@@ -273,7 +297,7 @@ class BaseSettings(Section):
 class Option(object):
     class __metaclass__(type):
         def __new__(cls, name, bases, attrs):
-            if object in bases:
+            if name in ['Option']:
                 return type.__new__(cls, name, bases, attrs)
             
             cls = type.__new__(cls, name, bases, {})
@@ -291,7 +315,7 @@ class Option(object):
             
             return cls(default, resolver, **attrs)
 
-    def __init__(self, default, resolver=None, **kwargs):
+    def __init__(self, default, resolver=None, __doc__=None, **kwargs):
         self.default = default
         
         if isinstance(resolver, Resolver):
@@ -300,13 +324,14 @@ class Option(object):
             self.resolver = Resolver(type=resolver)
         else:
             self.resolver = Resolver(type=default.__class__)
-
+        
+        self.__doc__ = __doc__
         self.extraOptions = kwargs
 
 class Resolver(object):
     class __metaclass__(type):
         def __new__(cls, name, bases, attrs):
-            if object in bases:
+            if name in ['Resolver']:
                 return type.__new__(cls, name, bases, attrs)
             
             cls = type.__new__(cls, name, bases, {})
@@ -322,3 +347,46 @@ class Resolver(object):
         self.type = type
         self.resolverKwargs = kwargs
         
+######################## Internal #############################
+import ast
+import inspect
+
+def get_assign_name(node):
+    if not isinstance(node , ast.Assign):
+        raise AstException("We can only pass Assign nodes")
+    if len(node.targets) > 1:
+        raise AstException("To many targets, we don't support this")
+    return node.targets[0].id
+
+def get_attr_doc(node):
+    doc = {}
+    lastname = None
+    for clsnode in ast.iter_child_nodes(node):
+        if isinstance(clsnode, ast.Assign):
+            try:
+                lastname = get_assign_name(clsnode)
+            except AstException:
+                lastname = None
+            #print lastname
+        elif isinstance(clsnode, ast.Expr):
+            if isinstance(clsnode.value, ast.Str) and lastname:
+                doc[lastname] = clsnode.value.s
+                #print doc[lastname]
+                lastname = None
+        else:
+            lastname = None
+    return doc
+
+def get_attr_doc_form_class(clsname, module):
+    m = ast.parse(inspect.getsource(module))
+    
+    # try to find the class by name 'clsname'
+    clsnode = None
+    for node in ast.walk(m):
+        if isinstance(node, ast.ClassDef) and node.name == clsname:
+            clsnode = node
+            break
+    if clsnode is not None:
+        doc = dict((k,v) for k,v in get_attr_doc(clsnode).items() if k.isupper())
+        return doc
+    return {}

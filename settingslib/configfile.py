@@ -27,12 +27,11 @@ import cStringIO as StringIO
 import re
 
 class ConfigFile(object):
-    def __init__(self, autogrown=True , help=None):
+    def __init__(self):
         self.__dict__['_ConfigFile__values'] = []
         self.__dict__['_ConfigFile__sections'] = []
         self.__dict__['_ConfigFile__comments'] = {}
-        self.__dict__['_ConfigFile__section_comment'] = help if help is not None else []
-        self.__dict__['_ConfigFile__autogrown'] = autogrown
+        self.__dict__['_ConfigFile__section_comment'] = []
 
     def __cmp__(self, other):
         v1 = self.__values[:]
@@ -56,11 +55,9 @@ class ConfigFile(object):
     def __getitem__(self, key):
         if key in self.__values:
             return self.__dict__[key]
-        if self.__autogrown:
-            self.__dict__[key] = ConfigFile()
-            self.__values.append(key)
-            return self.__dict__[key]
-        raise KeyError, "Key does not exits, key : {key}".format(key=key)
+        self.__dict__[key] = ConfigFile()
+        self.__values.append(key)
+        return self.__dict__[key]
     __getattr__ = __getitem__
 
     def __setitem__(self, key, val):
@@ -139,10 +136,7 @@ class ConfigFile(object):
 
     def read_helper(self, fp, indent):
         #print ">", id(self)
-        section_comment_open = False
         key = None
-        section_comment = []
-        comments = []
         
         for line in fp:
             mat = re.match(r'([ \t]*)(.*)$', line)
@@ -151,17 +145,6 @@ class ConfigFile(object):
             if not right:
                 # empty line, we skip it
                 continue
-            elif right.startswith("#"):
-                # comments
-                if right.startswith("#"*5):
-                    # open the section comment with minimal 5 times #
-                    section_comment_open = not section_comment_open
-                elif section_comment_open:
-                    # we are in section comment, add it to section_comment
-                    self.__section_comment.append(right[1:].strip(' #'))
-                else:
-                    # normal comment, add it to comment list and add it to the next key
-                    comments.append(right.strip(' #'))
             elif len(left) < len(indent):
                 # indent is smaller the the passed indent, section ended, returning
                 # push the line back to the "file"
@@ -174,18 +157,12 @@ class ConfigFile(object):
                 if not key:
                     raise ValueError, "Extra indent, but no lastkey, line %d" % fp.lineno
                 self[key.strip()] += " %s" % right
-                # add extra fond comments to the comments list of the current key
-                if comments:
-                    self.__comments[key.strip()] += comments
-                    comments = []
             elif right[-1:] == ':':
                 # new section
                 section = right[:-1].strip()
                 if not section:
                     raise ValueError, "Empty section, line %d" % fp.lineno
                 cfg = self[section] = ConfigFile()
-                # reset the comments
-                comments = []
                 # get the next line (with text) add push is back directly
                 while True:
                     newline = fp.next(stack=False)
@@ -202,19 +179,10 @@ class ConfigFile(object):
                 #print "adding key, value : ", right
                 if '=' in right:
                     key, val = right.split('=', 1)
-                    if "#" in val:
-                        # if there is a comment behind the value we also add it to commentlist
-                        val, extra_comment = right.split('#', 1)
-                        comments.append(extra_comment)
                 else:
                     # empty value
                     key, val = right, ""
                 self[key.strip()] = val.strip()
-                # if there where comments in front of the key add them
-                # reset the comment list after we fond a new key
-                #print "adding comments to ", key, "comments : ", comments
-                self.__comments[key.strip()] = comments
-                comments = []
 
     def __str__(self):
         return "<ConfigFile @ 0x%x>" % id(self)
@@ -230,13 +198,13 @@ class PushBackFile(object):
         return self
 
     def next(self, stack=True):
-        #while True:
-        if self.stack and stack:
-            line = self.stack.pop()
-        else:
-            line = self.fp.next()
-            #if line.strip()[:1] != "#":
-            #    break
+        while True:
+            if self.stack and stack:
+                line = self.stack.pop()
+            else:
+                line = self.fp.next()
+            if line.strip()[:1] != "#":
+                break
         self.lineno += 1
         line = self.untab(line.rstrip())
         #print "+", line

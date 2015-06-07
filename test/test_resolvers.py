@@ -107,7 +107,7 @@ class ResolverTestCase(basetest.BaseTestCase):
         settings.SOMETHING = ('somestring', '1')
         self.assertEqual(settings.SOMETHING[0], 'somestring')
         self.assertEqual(settings.SOMETHING[1], 1)
-        self.assertEqual(settings.userconfig["something"], 'somestring , 1')
+        self.assertEqual(settings.userconfig["something"], 'somestring,1')
     
     def test_listresolver(self):
         class Settings(BaseSettings):
@@ -132,7 +132,7 @@ class ResolverTestCase(basetest.BaseTestCase):
         self.assertEqual(settings.SOMESTRTULPE._l, [('dd',1)])
         settings.SOMESTRTULPE.append(("2", "3"))
         self.assertEqual(settings.SOMESTRTULPE._l, [('dd',1),('2',3)])
-        self.assertEqual(settings.userconfig["somestrtulpe"], '["dd , 1", "2 , 3"]')
+        self.assertEqual(settings.userconfig["somestrtulpe"], '["dd,1", "2,3"]')
     
     def test_dictresolver(self):
         class Settings(BaseSettings):

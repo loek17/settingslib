@@ -56,9 +56,10 @@ def create_config_object(settings):
             config[key] = create_config_object(settings.resolvers[key].get(value))
         else:
             config[key] = settings.resolvers[key].raw(value)
-            if settings.extraOptions[key]['__doc__']:
-                config.set_help(key, settings.extraOptions[key]['__doc__'])
+            if key in settings.help_dict:
+                config.set_help(key, settings.help_dict[key])
     
     return config
             
+
 
