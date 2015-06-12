@@ -44,49 +44,49 @@ based on the following steps we try to find the resolver.
 
 The following table is used to map the resolvers.
 
-+----------------------+------------+----------------+--------------+------------------------------+------------+
-| String type          | class      | key startswith | key endswith | Resover                      | Requires   |
-+======================+============+================+==============+==============================+============+
-| 'default'            |            |                |              | `SettingsResolver`           |            |
-+----------------------+------------+----------------+--------------+------------------------------+------------+
-| 'int'                | `int`      |                |              | `IntSettingsResolver`        |            |
-+----------------------+------------+----------------+--------------+------------------------------+------------+
-| 'float'              | `float`    |                |              | `FloatSettingsResolver`      |            |
-+----------------------+------------+----------------+--------------+------------------------------+------------+
-| 'bool'               | `bool`     |                |              | `BoolSettingsResolver`       |            |
-+----------------------+------------+----------------+--------------+------------------------------+------------+
-| 'str'                | `str`      |                |              | `StrSettingsResolver`        |            |
-+----------------------+------------+----------------+--------------+------------------------------+------------+
-| 'unicode'            | `unicode`  |                |              | `UnicodeSettingsResolver`    |            |
-+----------------------+------------+----------------+--------------+------------------------------+------------+
-| 'path'               |            |                |              | `PathSettingsResolver`       |            |
-+----------------------+------------+----------------+--------------+------------------------------+------------+
-| 'dir'                |            |                | 'dir'        | `DirSettingsResolver`        |            |
-+----------------------+------------+----------------+--------------+------------------------------+------------+
-| 'file'               |            |                | 'file'       | `FileSettingsResolver`       |            |
-+----------------------+------------+----------------+--------------+------------------------------+------------+
-| 'secret'             |            |                |              | `SecretSettingsResolver`     |            |
-+----------------------+------------+----------------+--------------+------------------------------+------------+
-| 'password', 'pass'   |            |                |              | `PassSettingsResolver`       |            |
-+----------------------+------------+----------------+--------------+------------------------------+------------+
-| 'timedelta'          | `timedelta`|                |              | `TimeDeltaSettingsResolver`  |            |
-+----------------------+------------+----------------+--------------+------------------------------+------------+
-| 'datetime'           | `datetime` |                |              | `DateTimeSettingsResolver`   |            |
-+----------------------+------------+----------------+--------------+------------------------------+------------+
-| 'time'               | `time`     |                |              | `TimeSettingsResolver`       |            |
-+----------------------+------------+----------------+--------------+------------------------------+------------+
-| 'date'               | `date`     |                |              | `DateSettingsResolver`       |            |
-+----------------------+------------+----------------+--------------+------------------------------+------------+
-| 'tulpe'              | `tulpe`    |                |              | `TulpeSettingsResolver`      |            |
-+----------------------+------------+----------------+--------------+------------------------------+------------+
-| 'namedtulpe'         |            |                |              | `NamedTulpeSettingsResolver` |            |
-+----------------------+------------+----------------+--------------+------------------------------+------------+
-| 'list'               | `list`     |                |              | `ListSettingsResolver`       |            |
-+----------------------+------------+----------------+--------------+------------------------------+------------+
-| 'dict'               | `dict`     |                |              | `DictSettingsResolver`       |            |
-+----------------------+------------+----------------+--------------+------------------------------+------------+
-|                      | `Section`  |                |              | `SectionSettingsResolver`    |            |
-+----------------------+------------+----------------+--------------+------------------------------+------------+
++----------------------+-------------+----------------+--------------+------------------------------+------------+
+| String type          | class       | key startswith | key endswith | Resover                      | Requires   |
++======================+=============+================+==============+==============================+============+
+| 'default'            |             |                |              | `SettingsResolver`           |            |
++----------------------+-------------+----------------+--------------+------------------------------+------------+
+| 'int'                | ``int``     |                |              | `IntSettingsResolver`        |            |
++----------------------+-------------+----------------+--------------+------------------------------+------------+
+| 'float'              | ``float``   |                |              | `FloatSettingsResolver`      |            |
++----------------------+-------------+----------------+--------------+------------------------------+------------+
+| 'bool'               | ``bool``    |                |              | `BoolSettingsResolver`       |            |
++----------------------+-------------+----------------+--------------+------------------------------+------------+
+| 'str'                | ``str``     |                |              | `StrSettingsResolver`        |            |
++----------------------+-------------+----------------+--------------+------------------------------+------------+
+| 'unicode'            | ``unicode`` |                |              | `UnicodeSettingsResolver`    |            |
++----------------------+-------------+----------------+--------------+------------------------------+------------+
+| 'path'               |             |                |              | `PathSettingsResolver`       |            |
++----------------------+-------------+----------------+--------------+------------------------------+------------+
+| 'dir'                |             |                | 'dir'        | `DirSettingsResolver`        |            |
++----------------------+-------------+----------------+--------------+------------------------------+------------+
+| 'file'               |             |                | 'file'       | `FileSettingsResolver`       |            |
++----------------------+-------------+----------------+--------------+------------------------------+------------+
+| 'secret'             |             |                |              | `SecretSettingsResolver`     |            |
++----------------------+-------------+----------------+--------------+------------------------------+------------+
+| 'password', 'pass'   |             |                |              | `PassSettingsResolver`       |            |
++----------------------+-------------+----------------+--------------+------------------------------+------------+
+| 'timedelta'          |``timedelta``|                |              | `TimeDeltaSettingsResolver`  |            |
++----------------------+-------------+----------------+--------------+------------------------------+------------+
+| 'datetime'           |``datetime`` |                |              | `DateTimeSettingsResolver`   |            |
++----------------------+-------------+----------------+--------------+------------------------------+------------+
+| 'time'               | ``time``    |                |              | `TimeSettingsResolver`       |            |
++----------------------+-------------+----------------+--------------+------------------------------+------------+
+| 'date'               | ``date``    |                |              | `DateSettingsResolver`       |            |
++----------------------+-------------+----------------+--------------+------------------------------+------------+
+| 'tulpe'              | ``tulpe``   |                |              | `TulpeSettingsResolver`      |            |
++----------------------+-------------+----------------+--------------+------------------------------+------------+
+| 'namedtulpe'         |             |                |              | `NamedTulpeSettingsResolver` |            |
++----------------------+-------------+----------------+--------------+------------------------------+------------+
+| 'list'               | ``list``    |                |              | `ListSettingsResolver`       |            |
++----------------------+-------------+----------------+--------------+------------------------------+------------+
+| 'dict'               | ``dict``    |                |              | `DictSettingsResolver`       |            |
++----------------------+-------------+----------------+--------------+------------------------------+------------+
+|                      | ``Section`` |                |              | `SectionSettingsResolver`    |            |
++----------------------+-------------+----------------+--------------+------------------------------+------------+
 """
 from __future__ import absolute_import
 
@@ -105,12 +105,12 @@ from . import basesettings
 
 logger = logging.getLogger(__name__)
 
-#__all__ = ['SettingsResolver' , 'IntSettingsResolver', 'FloatSettingsResolver', 'BoolSettingsResolver',
-#            'StrSettingsResolver', 'UnicodeSettingsResolver', 'DirSettingsResolver', 'FileSettingsResolver',
-#            'PassSettingsResolver', 'SecretSettingsResolver', 'DateSettingsResolver', 'TimeSettingsResolver',
-#            'DatetimeSettingsResolver', 
-#            'TupleSettingsResolver', 'NamedTupleSettingsResolver', 'ListSettingsResolver', 'DictSettingsResolver',
-#            'SectionSettingsResolver', 'ResolveException']
+__all__ = ['SettingsResolver' , 'IntSettingsResolver', 'FloatSettingsResolver', 'BoolSettingsResolver',
+            'StrSettingsResolver', 'UnicodeSettingsResolver', 'DirSettingsResolver', 'FileSettingsResolver',
+            'PassSettingsResolver', 'SecretSettingsResolver', 'DateSettingsResolver', 'TimeSettingsResolver',
+            'DatetimeSettingsResolver', 
+            'TupleSettingsResolver', 'NamedTupleSettingsResolver', 'ListSettingsResolver', 'DictSettingsResolver',
+            'SectionSettingsResolver', 'ResolveException']
 
 class ResolveException(Exception):
     pass
@@ -160,18 +160,18 @@ class SettingsResolver(object):
         return str(value)
     
     def validate(self, value):
-        """ Validate if `value` is a validate value for this settings attribute.
+        """ Validate if ``value`` is a validate value for this settings attribute.
         
         This is called before a value is set to a settings attribute to make sure
         it is a valid value. If not `BaseSettings` will raise an Exception.
         
-        If `__init__` was provided with a `validate` keyword, this is used to 
+        If ``__init__`` was provided with a `validate` keyword, this is used to 
         validate the value. Else the default is used.
         
         :param value: The value to validate
         :type value: supported type of this resolver
         :return: Returns True of False based on the value provided
-        :rtype: bool
+        :rtype: ``bool``
         """
         if self.validate_fuc is not None:
             return self.validate_fuc(value)
@@ -192,16 +192,16 @@ class SettingsResolver(object):
         """ Checks of this Resolver supports a settings attribute base on type, attribute key and default value.
         
         We first check if the attribute is supported base on the key and the default. If
-        that is not the case we check if type is in `resolve_types`.
+        that is not the case we check if type is in ``resolve_types``.
         
         :param type: A string descripting a resolver type of the python class.
         :param key: The name of settings attribute.
         :param default: The default value of the settings attribute.
-        :type type: `type` (Python Class) of `str`
-        :type key: `str`
+        :type type: ``type`` (Python Class) of ``str``
+        :type key: ``str``
         :type default: supported final type
         :return: Returns True if attribute is supported else False.
-        :rtype: `bool`
+        :rtype: ``bool``
         """
         try:
             if cls._supports(key, default):
@@ -222,10 +222,10 @@ class IntSettingsResolver(SettingsResolver):
     :param max: the maximum int value allowed
     :param step: steps just like in xrange, use with `min` and `max`
     :param choices: a list of int allowed to be set, use without min, max and step
-    :type min: `int`
-    :type max: `int`
-    :type step: `int`
-    :type choices: `list`
+    :type min: ``int``
+    :type max: ``int``
+    :type step: ``int``
+    :type choices: ``list``
     """
     resolve_types = ('int', int)
     
@@ -241,10 +241,10 @@ class IntSettingsResolver(SettingsResolver):
             self.choices = choices
     
     def get(self, value):
-        """ Coerce `value` to `int`.
+        """ Coerce ``value`` to ``int``.
         
         :return: Value as int.
-        :rtype: `int`
+        :rtype: ``int``
         """
         return int(value)
     
@@ -252,9 +252,9 @@ class IntSettingsResolver(SettingsResolver):
         """ Validate if value is between min and max or is in choices
         
         :param value: A value to validate
-        :type value: `int`
+        :type value: ``int``
         :return: True or False based of value
-        :rtype: `bool`
+        :rtype: ``bool``
         """
         if self.max or self.min:
             if self.max:
@@ -268,7 +268,7 @@ class IntSettingsResolver(SettingsResolver):
         return super(IntSettingsResolver, self)._validate(value)
 
 class FloatSettingsResolver(IntSettingsResolver):
-    """ Resolver to coerce values to `float` """
+    """ Resolver to coerce values to ``float`` """
     
     resolve_types = ('float', float)
     
@@ -285,10 +285,14 @@ class BoolSettingsResolver(IntSettingsResolver):
     
     We are very strict so only the following values are
     considered False:
-     - False, "False", 0, "0", "no", "n"
+    
+    - False, "False", 0, "0", "no", "n"
+    
+    
     Only the following values are considered True
-     - True, "True", 1, "1", "yes", "y"
-     
+    
+    - True, "True", 1, "1", "yes", "y"
+    
     We don't alway empty lists and dicts because the don't coerce well
     to string.
     
@@ -324,13 +328,16 @@ class StrSettingsResolver(SettingsResolver):
     is done using the `str.format()` function. 
     
     Example:
-    class Settings(BaseSettings):
-        IP = '127.0.0.1'
-        PORT = 5589
-        HOST = '{HOST}:{PORT}'
+    
+    .. code-block:: python
+    
+        class Settings(BaseSettings):
+            IP = '127.0.0.1'
+            PORT = 5589
+            HOST = '{HOST}:{PORT}'
     
     :param choices: List of valid strings for this setting
-    :type choices: `list`
+    :type choices: ``list``
     """
     
     SETTING_REGEX = '\{([1-9A-Z_\.]+)\}'
@@ -342,12 +349,12 @@ class StrSettingsResolver(SettingsResolver):
         self.choices = choices
         
     def get(self, value):
-        """ Coerce `value` to `str`.
+        """ Coerce `value` to ``str``.
         
         :param value: The value to coerce
-        :type value: `str`
+        :type value: ``str``
         :return: Value as string, value replace is done.
-        :rtype: `str`
+        :rtype: ``str``
         """
         value = str(value)
         if re.search(self.SETTING_REGEX, value):
@@ -361,9 +368,9 @@ class StrSettingsResolver(SettingsResolver):
         """ Validate if value is in choices (if choices was supplied)
         
         :param value: A value to validate
-        :type value: `str`
+        :type value: ``str``
         :return: True or False based of value
-        :rtype: `bool`
+        :rtype: ``bool``
         """
         if self.choices and value in self.choices:
             return True
@@ -373,23 +380,23 @@ class StrSettingsResolver(SettingsResolver):
         return super(StrSettingsResolver, self)._validate(value)
 
 class UnicodeSettingsResolver(StrSettingsResolver):
-    """ Resolver to coerce values to `str`.
+    """ Resolver to coerce values to ``unicode``.
     
-    Works the same as the `StrSettingsResolver`
+    Works the same as the ``StrSettingsResolver``.
     
-    :param choices: List of valid strings for this setting
-    :type choices: `list`
+    :param choices: List of valid strings for this setting.
+    :type choices: ``list``
     """
     
     resolve_types = ('unicode', unicode)
     
     def get(self, value):
-        """ Coerce `value` to `unicode`.
+        """ Coerce `value` to ``unicode``.
         
-        :param value: The value to coerce
-        :type value: `str`
+        :param value: The value to coerce.
+        :type value: ``str``
         :return: Value as string, value replace is done.
-        :rtype: `unicode`
+        :rtype: ``unicode``
         """
         return super(UnicodeSettingsResolver, self).get(value).decode('utf8')
     
@@ -399,8 +406,9 @@ class UnicodeSettingsResolver(StrSettingsResolver):
 class PathSettingsResolver(StrSettingsResolver):
     """ Resolver to proper return paths based on platform.
     
-    On Unix "\"-slashes are replaces by "/"-slashes. 
-    On Windows  "/"-slashes are replaces by "\"-slashes. 
+    On Unix "\\"-slashes are replaces by "/"-slashes. 
+    
+    On Windows  "/"-slashes are replaces by "\\"-slashes. 
     
     Formatting like `StrSettingsResolver` is supported.
     """
@@ -412,12 +420,12 @@ class PathSettingsResolver(StrSettingsResolver):
         self.choices = choices
     
     def get(self, value):
-        """ Coerce `value` to proper path.
+        """ Coerce ``value`` to proper path.
         
         :param value: The value to coerce
-        :type value: `str`
+        :type value: ``str``
         :return: path as string, value replace is done, slashes are according to platform.
-        :rtype: `str`
+        :rtype: ``str``
         """
         value = super(PathSettingsResolver, self).get(value)
         
@@ -431,6 +439,7 @@ class DirSettingsResolver(PathSettingsResolver):
     """ Resolver to proper return dir-paths based on platform.
     
     On Unix "\"-slashes are replaces by "/"-slashes. 
+    
     On Windows  "/"-slashes are replaces by "\"-slashes. 
     
     Formatting like `StrSettingsResolver` is supported.
@@ -438,7 +447,7 @@ class DirSettingsResolver(PathSettingsResolver):
     Dir can be automatic create when the path is requested.
     
     :param create: Automatic create the dir if is doesn't exists. True is default.
-    :type create: `bool`
+    :type create: ``bool``
     """
     
     resolve_types = ('dir',)
@@ -453,9 +462,9 @@ class DirSettingsResolver(PathSettingsResolver):
         If path does not exist and create is True the path is created.
         
         :param value: The value to coerce
-        :type value: `str`
+        :type value: ``str``
         :return: path as string, value replace is done, slashes are according to platform.
-        :rtype: `str`
+        :rtype: ``str``
         """
         value = super(DirSettingsResolver, self).get(value)
         
@@ -472,6 +481,7 @@ class FileSettingsResolver(PathSettingsResolver):
     """ Resolver to proper return dir-paths based on platform.
     
     On Unix "\"-slashes are replaces by "/"-slashes. 
+    
     On Windows  "/"-slashes are replaces by "\"-slashes. 
     
     Formatting like `StrSettingsResolver` is supported.
@@ -481,9 +491,9 @@ class FileSettingsResolver(PathSettingsResolver):
     :param create: Automatic create the file if is doesn't exists. False is default.
     :param create_dir: Automatic create the dir in with the file lives if is doesn't exists. True is default.
     :param file_ext: Validate if a file has the correct extension. 
-    :type create: `bool`
-    :type create_dir: `bool`
-    :type file_ext: `str`
+    :type create: ``bool``
+    :type create_dir: ``bool``
+    :type file_ext: ``str``
     """
     
     resolve_types = ('file',)
@@ -525,10 +535,11 @@ class FileSettingsResolver(PathSettingsResolver):
 class SecretSettingsResolver(SettingsResolver):
     """ Resolver that encrypts value before storing it.
     
-    Formatting like `StrSettingsResolver` is supported.
+    Formatting like ``StrSettingsResolver`` is supported.
     
-    **WARNING - The default must already be encrypted, use SecretSettingsResolver.encrypte(key, value)
-    to use the default implementation. - WARNING**
+    .. warning::
+        The default must already be encrypted, use SecretSettingsResolver.encrypte(key, value)
+        to use the default implementation.
     
     This is a basic implementation. It is not 100% save.
     
@@ -536,9 +547,9 @@ class SecretSettingsResolver(SettingsResolver):
             the default implentation returns settings.SECRET_KEY or raises ResolveException
     :param encode: Callable to override de default implementation. Must take 2 args, (key, encrypte_text) 
     :param decode: Callable to override de default implementation. Must take 2 args, (key, text) 
-    :type get_secret: `callable`
-    :type encode: `callable`
-    :type decode: `callable`
+    :type get_secret: ``callable``
+    :type encode: ``callable``
+    :type decode: ``callable``
     """
     
     resolve_types = ('secret',)
@@ -576,10 +587,10 @@ class SecretSettingsResolver(SettingsResolver):
         
         :param key: Key returned by `get_secret`
         :param clear: Plaintext to encrypte.
-        :type key: `str`
-        :type clear: `str`
+        :type key: ``str``
+        :type clear: ``str``
         :return: Return encrypted text, baseencoded.
-        :rtype: `str`
+        :rtype: ``str``
         """
         enc = []
         for i in range(len(clear)):
@@ -596,10 +607,10 @@ class SecretSettingsResolver(SettingsResolver):
         
         :param key: Key returned by `get_secret`
         :param clear: Encrypted text to decrypte.
-        :type key: `str`
-        :type clear: `str`
+        :type key: ``str``
+        :type clear: ``str``
         :return: Return encrypted text, baseencoded.
-        :rtype: `str`
+        :rtype: ``str``
         """
         dec = []
         enc = base64.urlsafe_b64decode(enc)
@@ -612,22 +623,25 @@ class SecretSettingsResolver(SettingsResolver):
 class PassSettingsResolver(SettingsResolver):
     """ Resolver returns a password object, use it to compare given password to stored password.
     
-    **WARNING - The default must already be hashed, use SecretSettingsResolver.hash(password, SecretSettingsResolver.salt())
-    to use the default implementation. - WARNING**
+    .. warning::
+        The default must already be hashed, use SecretSettingsResolver.hash(password, SecretSettingsResolver.salt())
+        to use the default implementation.
     
     This resolver return a special object. It can be used to match plain passwords to 
     the hashed password sorted in the settings object.
     
     Example:
-    password = "some plain password"
-    if settings.PASSWORD == password: # or settings.PASSWORD.equals(password)
-        # do something special
-        pass
+    
+    .. code-block
+        password = "some plain password"
+        if settings.PASSWORD == password: # or settings.PASSWORD.equals(password)
+            # do something special
+            pass
     
     :param salt: Function to get the salt, or salt as `str`, this is passed to the hasher
     :param hasher: Callable to override de default implementation. Must take 2 args, (password, salt) 
-    :type salt: `callable`
-    :type hasher: `callable`
+    :type salt: ``callable``
+    :type hasher: ``callable``
     """
     
     resolve_types = ('pass','password')
@@ -659,7 +673,7 @@ class PassSettingsResolver(SettingsResolver):
         """ Returns password object.
         
         :return: Special object to match plain text password
-        :rtype: `Password`
+        :rtype: ``Password``
         """
         return self.Password(value, self.hash, self.salt)
     
@@ -667,7 +681,7 @@ class PassSettingsResolver(SettingsResolver):
         """ Hash the value if it is not a Password type.
         
         :return: The hashed value of `value`
-        :rtype: `str`
+        :rtype: ``str``
         """
         if isinstance(value , self.Password):
             return value.password
@@ -679,10 +693,10 @@ class PassSettingsResolver(SettingsResolver):
         
         :param value: The value to hash.
         :param salt: A salt to use in the hash procces
-        :type value: `str`
-        :type salt: `str`
+        :type value: ``str``
+        :type salt: ``str``
         :return: Return hashed password, (as hexdigest).
-        :rtype: `str`
+        :rtype: ``str``
         """
         if callable(salt):
             salt = salt(value)
@@ -693,9 +707,9 @@ class PassSettingsResolver(SettingsResolver):
         """ Return the default salt ('default')
         
         :param value: The value that is going to be hashed..
-        :type value: `str`
+        :type value: ``str``
         :return: The salt to use in the hash, this function returns `'default'`
-        :rtype: `str`
+        :rtype: ``str``
         """
         return 'default'
     
@@ -708,8 +722,8 @@ class TimeDeltaSettingsResolver(SettingsResolver):
     
     :param min: The minimum valid timedelta
     :param max: The maximum valid timedelta
-    :type min: `timedelta`
-    :type max: `timedelta`
+    :type min: ``timedelta``
+    :type max: ``timedelta``
     """
     resolve_types = ('timedelta', datetime.timedelta)
     
@@ -738,8 +752,8 @@ class DatetimeSettingsResolver(SettingsResolver):
     
     :param min: The minimum valid datetime
     :param max: The maximum valid datetime
-    :type min: `datetime`
-    :type max: `datetime`
+    :type min: ``datetime``
+    :type max: ``datetime``
     """
     
     resolve_types = ('datetime', datetime.datetime)
@@ -822,11 +836,13 @@ class TupleSettingsResolver(MultiValueSettingsResolver):
     what the type of the childs where, else we use the default value.
     
     example:
-    if childs was passed
-    childs = ['str', 'path', 'int')  --> TupleSettingsResolver(StrSettingsResolver, PathSettingsResolver, IntSettingsResolver)
     
-    if childs is None:
-    (1 , 'hello', u'test')  --> TupleSettingsResolver(IntSettingsResolver, StrSettingsResolver, UnicodeSettingsResolver)
+    .. code-block
+        #if childs was passed
+        childs = ['str', 'path', 'int')  --> TupleSettingsResolver(StrSettingsResolver, PathSettingsResolver, IntSettingsResolver)
+    
+        if childs is None:
+            (1 , 'hello', u'test')  --> TupleSettingsResolver(IntSettingsResolver, StrSettingsResolver, UnicodeSettingsResolver)
     
     :param childs: A list of str type or `Resolver` used to determine what the childs types are.
     :type chidls: `list`
@@ -842,28 +858,28 @@ class TupleSettingsResolver(MultiValueSettingsResolver):
         if childs:
             for r in childs:
                 if isinstance(r, basesettings.Resolver):
-                    resolver = settings.get_resolver(r.type, kwargs=r.resolverKwargs)
+                    resolver = settings._get_resolver(r.type, kwargs=r.resolverKwargs)
                 else:
-                    resolver = settings.get_resolver(r)
+                    resolver = settings._get_resolver(r)
                 self.resolvers.append(resolver)
         
     def get(self, value):
         """ Returns tuple using ' , ' to split string in tuple childs
         
         :return: Tulpe, all childs resolvers are applied to the childs
-        :rtype: `tuple`
+        :rtype: ``tuple``
         """
         if isinstance(value, basestring):
             value = value.split(self.delimiter)
         return tuple(self.resolvers[i].get(v) for i,v in enumerate(value))
     
     def raw(self, value):
-        """ Coerce `tuple` to `str`
+        """ Coerce ``tuple`` to ``str``
         
         Childs are passed to there raw function and joined using a `,`.
         
         :return: Childs as str, joined with a `,`
-        :rtype: `str`
+        :rtype: ``str``
         """
         l = []
         for i,v in enumerate(value):
@@ -882,7 +898,7 @@ class TupleSettingsResolver(MultiValueSettingsResolver):
     
     def set_childs(self, defaults):
         for i,d in enumerate(defaults):
-            r = self.settings.get_resolver(d.__class__, None, d, kwargs={})
+            r = self.settings._get_resolver(d.__class__, None, d, kwargs={})
             if r.multivalue and not r.has_childs():
                 r.set_childs(d)
             self.resolvers.append(r)
@@ -891,8 +907,8 @@ class NamedTupleSettingsResolver(TupleSettingsResolver):
     """ Same as TupleSettingsResolver, but takes a extra
     key parameter. This is passed to the namedtuple factory.
     
-    :param key: `list` of names passed to `namedtulpe` factory.
-    :type key: `list`
+    :param key: ``list`` of names passed to ``namedtulpe`` factory.
+    :type key: ``list``
     """
     
     resolve_types = ('namedtuple',)
@@ -911,7 +927,7 @@ class ReferenceResolverMixin(object):
     each time the mutable object changes.
     
     :return: The key this resolver is linked to
-    :rtype: `str`
+    :rtype: ``str``
     """
     def get_key(self):  
         for key, resolver in self.settings.resolvers.items():
@@ -919,7 +935,7 @@ class ReferenceResolverMixin(object):
                 return key
         
 class ListSettingsResolver(MultiValueSettingsResolver, ReferenceResolverMixin):
-    """ Resolver to coerce value to `list`
+    """ Resolver to coerce value to ``list``
     
     This resolver returns a special SyncList. This acts the same as a list,
     but syncs all changes back to the settingsobject. We expect that a list
@@ -934,12 +950,12 @@ class ListSettingsResolver(MultiValueSettingsResolver, ReferenceResolverMixin):
             and is called with the list as param
     :param minLen: the minimum length of the list
     :param maxLen: the maximum length of the list
-    :type child: `str` or `Resolver`
-    :type duplicate: `bool`
-    :type options: `list`
-    :type sort: `callable`
-    :type minLen: `int`
-    :type maxLen: `int`
+    :type child: ``str`` or `Resolver`
+    :type duplicate: ``bool``
+    :type options: ``list``
+    :type sort: ``callable``
+    :type minLen: ``int``
+    :type maxLen: ``int``
     """
     resolve_types = ('list', list)
     
@@ -1062,16 +1078,16 @@ class ListSettingsResolver(MultiValueSettingsResolver, ReferenceResolverMixin):
         
         if child:
             if isinstance(child, basesettings.Resolver):
-                self.resolver = settings.get_resolver(child.type, kwargs=child.resolverKwargs)
+                self.resolver = settings._get_resolver(child.type, kwargs=child.resolverKwargs)
             else:
-                self.resolver = settings.get_resolver(child)
+                self.resolver = settings._get_resolver(child)
             self.resolvers = (self.resolver,)
         
     def get(self, values):
         """ Returns the SyncList based on the list.
         
         :return: Special SyncList to sync back all changes to settings object.
-        :rtype: `SyncList`
+        :rtype: ``SyncList``
         """
         key = self.get_key()
         if isinstance(values, self.SyncList):
@@ -1116,7 +1132,7 @@ class ListSettingsResolver(MultiValueSettingsResolver, ReferenceResolverMixin):
     
     def set_childs(self, defaults):
         if defaults:
-            r = self.settings.get_resolver(defaults[0].__class__, {})
+            r = self.settings._get_resolver(defaults[0].__class__, {})
             if r.multivalue and not r.has_childs():
                 r.set_childs(defaults[0])
             self.resolver = r
@@ -1134,7 +1150,7 @@ class DictSettingsResolver(MultiValueSettingsResolver, ReferenceResolverMixin):
     
     This resolver returns a dict like object (SyncDict) to sync back changes to the settings object.
     
-    :param default: value to pass to `dict.setdefault`.
+    :param default: value to pass to ``dict.setdefault``.
     """
     
     resolve_types = ('dict', dict)

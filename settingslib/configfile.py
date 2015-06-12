@@ -20,7 +20,6 @@ Significant points:
     convert strings to other types of objects.
 
 Edited to allow the passing and writing of comments (Loek17)
-
 """
 
 import cStringIO as StringIO
